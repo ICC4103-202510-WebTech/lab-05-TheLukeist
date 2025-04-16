@@ -2,6 +2,9 @@
 # development, test). The code here should be idempotent so that it can be executed at any point in every environment.
 # The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).}
 
+Message.destroy_all
+Chat.destroy_all
+User.destroy_all
 
 users_data = [
   { email: "maria.garcia@example.com", first_name: "María", last_name: "García" },
@@ -21,7 +24,9 @@ users_data = [
   { email: "cr7@example.com", first_name: "Cristiano", last_name: "Ronaldo" }
 ]
 
-users_data.each do |user_data|
+selected_users = users_data.sample(10)
+
+selected_users.each do |user_data|
   User.create!(user_data)
 end
 
@@ -55,6 +60,16 @@ mensajes = [
   "Que paso papito",
   "SIUUUUUUUUUUUUUUU"
 ]
+
+selected_messages = mensajes.sample(10)
+
+selected_messages.each do |mensajes|
+  Message.create!(
+    chat_id: (i % 10) + 1,
+    user_id: (i % 10) + 1,
+    body: mensajes
+  )
+end
 
 10.times do |i|
   Message.create!(

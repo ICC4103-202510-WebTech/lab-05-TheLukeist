@@ -1,0 +1,15 @@
+<h1>Detalles del Mensaje</h1>
+
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">Mensaje #<%= @message.id %></h5>
+    <p class="card-text">
+      <strong>Chat:</strong> #<%= @message.chat_id %><br>
+      <strong>Usuario:</strong> <%= @user.first_name %> <%= @user.last_name %><br>
+      <strong>Mensaje:</strong> <%= @message.body %><br>
+      <strong>Creado:</strong> <%= @message.created_at %><br>
+      <strong>Actualizado:</strong> <%= @message.updated_at %>
+    </p>
+    <%= link_to "Volver a Mensajes", messages_path, class: "btn btn-secondary" %>
+  </div>
+</div>
