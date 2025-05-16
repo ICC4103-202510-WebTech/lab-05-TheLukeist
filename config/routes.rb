@@ -13,9 +13,9 @@ Rails.application.routes.draw do
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
-  resources :users, only: [:index, :show, :new, :create]
-  resources :chats, only: [:index, :show, :new, :create]
-  resources :messages, only: [:index, :show, :new, :create]
+  resources :users, only: [:index, :show, :new, :create, :edit, :update]
+  resources :chats, only: [:index, :show, :new, :create, :edit, :update]
+  resources :messages, only: [:index, :show, :new, :create, :edit, :update]
   
   root 'users#index'
 end

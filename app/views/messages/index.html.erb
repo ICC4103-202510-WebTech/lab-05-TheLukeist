@@ -23,7 +23,10 @@
         <td><%= @users.find { |u| u.id == message.user_id }&.first_name %></td>
         <td><%= message.body %></td>
         <td><%= message.created_at %></td>
-        <td><%= link_to "Ver", message_path(message), class: "btn btn-primary btn-sm" %></td>
+        <td>
+          <%= link_to "Ver", message_path(message), class: "btn btn-primary btn-sm" %>
+          <%= link_to "Editar", edit_message_path(message), class: "btn btn-warning btn-sm" %>
+        </td>
       </tr>
     <% end %>
   </tbody>

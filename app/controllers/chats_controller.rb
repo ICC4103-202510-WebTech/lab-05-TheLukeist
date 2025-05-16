@@ -8,6 +8,7 @@ class ChatsController < ApplicationController
     @chat = Chat.find(params[:id])
     @sender = User.find(@chat.sender_id)
     @receiver = User.find(@chat.receiver_id)
+    @messages = @chat.messages
   end
 
   def new
@@ -22,6 +23,21 @@ class ChatsController < ApplicationController
     else
       @users = User.all
       render :new, status: :unprocessable_entity
+    end
+  end
+
+  def edit
+    @chat = Chat.find(params[:id])
+    @users = User.all
+  end
+
+  def update
+    @chat = Chat.find(params[:id])
+    if @chat.update(chat_params)
+      redirect_to @chat, notice: 'Chat actualizado exitosamente.'
+    else
+      @users = User.all
+      render :edit, status: :unprocessable_entity
     end
   end
 

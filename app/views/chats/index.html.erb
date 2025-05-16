@@ -10,6 +10,7 @@
       <th>ID</th>
       <th>Remitente</th>
       <th>Receptor</th>
+      <th>Mensajes</th>
       <th>Creado</th>
       <th>Acciones</th>
     </tr>
@@ -20,8 +21,12 @@
         <td><%= chat.id %></td>
         <td><%= @users.find { |u| u.id == chat.sender_id }&.first_name %></td>
         <td><%= @users.find { |u| u.id == chat.receiver_id }&.first_name %></td>
+        <td><%= chat.messages.count %></td>
         <td><%= chat.created_at %></td>
-        <td><%= link_to "Ver", chat_path(chat), class: "btn btn-primary btn-sm" %></td>
+        <td>
+          <%= link_to "Ver", chat_path(chat), class: "btn btn-primary btn-sm" %>
+          <%= link_to "Editar", edit_chat_path(chat), class: "btn btn-warning btn-sm" %>
+        </td>
       </tr>
     <% end %>
   </tbody>

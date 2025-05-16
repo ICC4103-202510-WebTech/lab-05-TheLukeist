@@ -4,12 +4,16 @@
   <div class="card-body">
     <h5 class="card-title">Mensaje #<%= @message.id %></h5>
     <p class="card-text">
-      <strong>Chat:</strong> #<%= @message.chat_id %><br>
+      <strong>Chat:</strong> #<%= @message.chat_id %> (De <%= @chat.sender.first_name %> para <%= @chat.receiver.first_name %>)<br>
       <strong>Usuario:</strong> <%= @user.first_name %> <%= @user.last_name %><br>
       <strong>Mensaje:</strong> <%= @message.body %><br>
       <strong>Creado:</strong> <%= @message.created_at %><br>
       <strong>Actualizado:</strong> <%= @message.updated_at %>
     </p>
-    <%= link_to "Volver a Mensajes", messages_path, class: "btn btn-secondary" %>
+    <div class="mb-3">
+      <%= link_to "Editar", edit_message_path(@message), class: "btn btn-warning" %>
+      <%= link_to "Volver a Mensajes", messages_path, class: "btn btn-secondary" %>
+      <%= link_to "Ver Chat", chat_path(@chat), class: "btn btn-info" %>
+    </div>
   </div>
 </div>
