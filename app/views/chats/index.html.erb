@@ -21,7 +21,7 @@
             <%= link_to "Editar", edit_chat_path(chat), class: "btn btn-warning" %>
           <% end %>
           <% if can? :destroy, chat %>
-            <%= button_to "Eliminar", chat_path(chat), data: { turbo_method: :delete, confirm: "¿Estás seguro?" }, class: "btn btn-danger" %>
+            <%= button_to "Eliminar", chat_path(chat), method: :delete, data: { confirm: "¿Estás seguro?" }, class: "btn btn-danger" %>
           <% end %>
         </div>
       </div>
