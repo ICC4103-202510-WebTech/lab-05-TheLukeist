@@ -1,33 +1,26 @@
 <h1>Usuarios</h1>
 
-<div class="mb-3">
-  <%= link_to "Nuevo Usuario", new_user_path, class: "btn btn-success" %>
-</div>
+<% if can? :create, User %>
+  <%= link_to "Nuevo Usuario", new_user_path, class: "btn btn-primary mb-3" %>
+<% end %>
 
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Nombre</th>
-      <th>Apellido</th>
-      <th>Email</th>
-      <th>Mensajes Enviados</th>
-      <th>Acciones</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @users.each do |user| %>
-      <tr>
-        <td><%= user.id %></td>
-        <td><%= user.first_name %></td>
-        <td><%= user.last_name %></td>
-        <td><%= user.email %></td>
-        <td><%= user.sent_messages.count %></td>
-        <td>
-          <%= link_to "Ver", user_path(user), class: "btn btn-primary btn-sm" %>
-          <%= link_to "Editar", edit_user_path(user), class: "btn btn-warning btn-sm" %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table> 
+<div class="row">
+  <% @users.each do |user| %>
+    <div class="col-md-4 mb-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title"><%= user.first_name %> <%= user.last_name %></h5>
+          <p class="card-text">
+            <small class="text-muted">
+              Email: <%= user.email %>
+            </small>
+          </p>
+          <%= link_to "Ver", user_path(user), class: "btn btn-info" %>
+          <% if can? :edit, user %>
+            <%= link_to "Editar", edit_user_path(user), class: "btn btn-warning" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div> 

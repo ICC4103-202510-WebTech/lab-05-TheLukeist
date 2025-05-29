@@ -14,7 +14,8 @@
 
   <div class="mb-3">
     <%= f.label :sender_id, "Remitente", class: "form-label" %>
-    <%= f.select :sender_id, @users.map { |u| [u.first_name, u.id] }, {}, class: "form-select" %>
+    <%= f.select :sender_id, [[current_user.first_name, current_user.id]], {}, class: "form-select", disabled: true %>
+    <%= f.hidden_field :sender_id, value: current_user.id %>
   </div>
 
   <div class="mb-3">

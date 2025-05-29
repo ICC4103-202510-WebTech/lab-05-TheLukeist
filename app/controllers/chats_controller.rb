@@ -1,11 +1,13 @@
 class ChatsController < ApplicationController
+  load_and_authorize_resource
+  before_action :set_chat, only: [:show, :edit, :update, :destroy]
+
   def index
     @chats = Chat.all
     @users = User.where(id: @chats.pluck(:sender_id, :receiver_id).flatten.uniq)
   end
 
   def show
-    @chat = Chat.find(params[:id])
     @sender = User.find(@chat.sender_id)
     @receiver = User.find(@chat.receiver_id)
     @messages = @chat.messages
@@ -18,6 +20,15 @@ class ChatsController < ApplicationController
 
   def create
     @chat = Chat.new(chat_params)
+    @chat.sender = current_user
+
+    if params[:chat][:sender_id].to_i != current_user.id
+      @chat.errors.add(:sender_id, 'debe ser tu usuario actual')
+      @users = User.all
+      render :new, status: :unprocessable_entity
+      return
+    end
+
     if @chat.save
       redirect_to @chat, notice: 'Chat creado exitosamente.'
     else
@@ -27,12 +38,10 @@ class ChatsController < ApplicationController
   end
 
   def edit
-    @chat = Chat.find(params[:id])
     @users = User.all
   end
 
   def update
-    @chat = Chat.find(params[:id])
     if @chat.update(chat_params)
       redirect_to @chat, notice: 'Chat actualizado exitosamente.'
     else
@@ -41,9 +50,18 @@ class ChatsController < ApplicationController
     end
   end
 
+  def destroy
+    @chat.destroy
+    redirect_to chats_path, notice: 'Chat eliminado exitosamente.'
+  end
+
   private
 
+  def set_chat
+    @chat = Chat.find(params[:id])
+  end
+
   def chat_params
-    params.require(:chat).permit(:sender_id, :receiver_id)
+    params.require(:chat).permit(:receiver_id)
   end
 end

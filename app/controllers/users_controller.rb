@@ -1,10 +1,12 @@
 class UsersController < ApplicationController
+  load_and_authorize_resource
+  before_action :set_user, only: [:show, :edit, :update]
+
   def index
     @users = User.all
   end
 
   def show
-    @user = User.find(params[:id])
     @sent_chats = @user.sent_chats
     @received_chats = @user.received_chats
     @sent_messages = @user.sent_messages
@@ -24,11 +26,9 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user = User.find(params[:id])
   end
 
   def update
-    @user = User.find(params[:id])
     if @user.update(user_params)
       redirect_to @user, notice: 'Usuario actualizado exitosamente.'
     else
@@ -38,7 +38,11 @@ class UsersController < ApplicationController
 
   private
 
+  def set_user
+    @user = User.find(params[:id])
+  end
+
   def user_params
-    params.require(:user).permit(:email, :first_name, :last_name)
+    params.require(:user).permit(:email, :first_name, :last_name, :password, :password_confirmation)
   end
 end 

@@ -18,11 +18,6 @@
   </div>
 
   <div class="mb-3">
-    <%= f.label :user_id, "Usuario", class: "form-label" %>
-    <%= f.select :user_id, @users.map { |u| [u.first_name, u.id] }, {}, class: "form-select" %>
-  </div>
-
-  <div class="mb-3">
     <%= f.label :body, "Mensaje", class: "form-label" %>
     <%= f.text_area :body, class: "form-control" %>
   </div>

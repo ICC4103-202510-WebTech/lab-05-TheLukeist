@@ -14,12 +14,7 @@
 
   <div class="mb-3">
     <%= f.label :chat_id, "Chat", class: "form-label" %>
-    <%= f.select :chat_id, @chats.map { |c| ["Chat ##{c.id} (#{c.sender.first_name} -> #{c.receiver.first_name})", c.id] }, {}, class: "form-select" %>
-  </div>
-
-  <div class="mb-3">
-    <%= f.label :user_id, "Usuario", class: "form-label" %>
-    <%= f.select :user_id, @users.map { |u| [u.first_name, u.id] }, {}, class: "form-select" %>
+    <%= f.select :chat_id, @chats.select { |c| c.sender_id == current_user.id || c.receiver_id == current_user.id }.map { |c| ["Chat ##{c.id} (#{c.sender.first_name} -> #{c.receiver.first_name})", c.id] }, {}, class: "form-select" %>
   </div>
 
   <div class="mb-3">

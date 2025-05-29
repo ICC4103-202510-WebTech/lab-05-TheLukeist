@@ -1,33 +1,30 @@
 <h1>Mensajes</h1>
 
-<div class="mb-3">
-  <%= link_to "Nuevo Mensaje", new_message_path, class: "btn btn-success" %>
-</div>
+<% if can? :create, Message %>
+  <%= link_to "Nuevo Mensaje", new_message_path, class: "btn btn-primary mb-3" %>
+<% end %>
 
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Chat</th>
-      <th>Usuario</th>
-      <th>Mensaje</th>
-      <th>Creado</th>
-      <th>Acciones</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @messages.each do |message| %>
-      <tr>
-        <td><%= message.id %></td>
-        <td>Chat #<%= message.chat_id %></td>
-        <td><%= @users.find { |u| u.id == message.user_id }&.first_name %></td>
-        <td><%= message.body %></td>
-        <td><%= message.created_at %></td>
-        <td>
-          <%= link_to "Ver", message_path(message), class: "btn btn-primary btn-sm" %>
-          <%= link_to "Editar", edit_message_path(message), class: "btn btn-warning btn-sm" %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<div class="row">
+  <% @messages.each do |message| %>
+    <div class="col-md-4 mb-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Mensaje #<%= message.id %></h5>
+          <p class="card-text"><%= message.body %></p>
+          <p class="card-text">
+            <small class="text-muted">
+              De: <%= message.user.first_name %> <%= message.user.last_name %>
+            </small>
+          </p>
+          <%= link_to "Ver", message_path(message), class: "btn btn-info" %>
+          <% if can? :edit, message %>
+            <%= link_to "Editar", edit_message_path(message), class: "btn btn-warning" %>
+          <% end %>
+          <% if can? :destroy, message %>
+            <%= button_to "Eliminar", message_path(message), data: { turbo_method: :delete, confirm: "¿Estás seguro?" }, class: "btn btn-danger" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
