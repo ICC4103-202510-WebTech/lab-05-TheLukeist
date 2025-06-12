@@ -1,4 +1,4 @@
-<h1>Chats</h1>
+<h1>Mi Inbox</h1>
 
 <% if can? :create, Chat %>
   <%= link_to "Nuevo Chat", new_chat_path, class: "btn btn-primary mb-3" %>
@@ -9,11 +9,18 @@
     <div class="col-md-4 mb-4">
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title">Chat #<%= chat.id %></h5>
+          <% other_user = chat.other_participant(current_user) %>
+          <h5 class="card-title">
+            <%= other_user.first_name %> <%= other_user.last_name %>
+          </h5>
           <p class="card-text">
             <small class="text-muted">
-              De: <%= chat.sender.first_name %> <%= chat.sender.last_name %><br>
-              Para: <%= chat.receiver.first_name %> <%= chat.receiver.last_name %>
+              <% last_message = chat.messages.last %>
+              <% if last_message %>
+                Último mensaje: <%= truncate(last_message.body.to_s, length: 30) %>
+              <% else %>
+                No hay mensajes aún
+              <% end %>
             </small>
           </p>
           <%= link_to "Ver", chat_path(chat), class: "btn btn-info" %>
